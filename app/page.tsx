@@ -88,7 +88,7 @@ export default function Home() {
                 </div>
                 <div className="text-center space-y-2">
                   <p className="text-xl font-semibold text-gray-700 dark:text-gray-300">Start a conversation!</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Ask me anything and I'll help you out.</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Ask me anything and I&apos;ll help you out.</p>
                 </div>
               </div>
             )}
