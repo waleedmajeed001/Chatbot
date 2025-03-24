@@ -454,8 +454,8 @@ export default function Chatbot() {
         </div>
       </div>
 
-      {/* Main Chat Area - improved responsive layout */}
-      <div className="w-full flex flex-col h-screen">
+      {/* Main Chat Area - fixed mobile height issues */}
+      <div className="w-full flex flex-col min-h-screen max-h-screen">
         <div className={`
           flex flex-col h-full w-full transition-all duration-300
           ${isPCSidebarOpen ? 'sm:pl-80' : ''}
@@ -525,8 +525,8 @@ export default function Chatbot() {
             </div>
           </header>
 
-          {/* Messages container - improved spacing */}
-          <div className="flex-1 overflow-hidden flex flex-col">
+          {/* Messages container - adjusted for mobile */}
+          <div className="flex-1 overflow-hidden flex flex-col min-h-0">
             <div className={`
               flex-1 overflow-y-auto py-4 sm:py-6 space-y-4 sm:space-y-6 custom-scrollbar overscroll-contain
               ${isPCSidebarOpen ? 'px-4 sm:px-6 max-w-[1024px] mx-auto w-full' : 'container mx-auto px-3 sm:px-6'}
@@ -569,7 +569,7 @@ export default function Chatbot() {
                   </div>
 
                   {/* Message actions for user messages */}
-                  {message.role === 'user' && (
+                    {message.role === 'user' && (
                     <div className={`
                       flex flex-col gap-1.5 opacity-0 group-hover:opacity-100 
                       sm:hover:bg-gray-100 sm:dark:hover:bg-gray-700
@@ -577,30 +577,30 @@ export default function Chatbot() {
                       bg-gray-50 dark:bg-gray-800 sm:bg-transparent sm:dark:bg-transparent
                       rounded-lg shadow-sm sm:shadow-none p-1 sm:p-0
                     `}>
-                      <button
+                        <button
                         onClick={() => handleEditMessage(message)}
                         className="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                       >
                         <svg className="w-4 h-4 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                        </svg>
-                      </button>
-                      <button
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                          </svg>
+                        </button>
+                        <button
                         onClick={() => handleDeleteMessage(message.id)}
                         className="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                       >
                         <svg className="w-4 h-4 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                      </button>
-                    </div>
-                  )}
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+                      </div>
+                    )}
 
                   {/* Message bubble - improved padding */}
                   <div className={`
                     inline-block rounded-2xl px-3 py-2 sm:px-4 sm:py-3
                     ${message.role === 'user'
-                      ? 'bg-gradient-to-br from-teal-500 to-teal-600 text-white rounded-br-none'
+                          ? 'bg-gradient-to-br from-teal-500 to-teal-600 text-white rounded-br-none'
                       : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white rounded-bl-none'}
                     shadow-sm animate-fade-in
                   `}>
@@ -630,8 +630,8 @@ export default function Chatbot() {
             </div>
           </div>
 
-          {/* Input form - improved mobile design */}
-          <div className="flex-none bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-t border-gray-200/50 dark:border-gray-700/50">
+          {/* Input form - fixed mobile positioning */}
+          <div className="flex-none bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-t border-gray-200/50 dark:border-gray-700/50 w-full">
             <div className={`p-3 sm:p-4 ${isPCSidebarOpen ? 'max-w-[1024px] mx-auto' : 'container mx-auto px-3 sm:px-6'}`}>
               <form onSubmit={editingMessage ? handleUpdateMessage : handleSubmit} className="flex gap-2 sm:gap-3">
                 <input
@@ -709,6 +709,16 @@ export default function Chatbot() {
         @media (max-width: 640px) {
           .group:active .opacity-0 {
             opacity: 1;
+          }
+        }
+        
+        /* Fix for mobile viewport height */
+        @supports (-webkit-touch-callout: none) {
+          .min-h-screen {
+            min-height: -webkit-fill-available;
+          }
+          .max-h-screen {
+            max-height: -webkit-fill-available;
           }
         }
       `}</style>
