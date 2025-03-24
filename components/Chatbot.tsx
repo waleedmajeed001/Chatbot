@@ -454,13 +454,13 @@ export default function Chatbot() {
         </div>
       </div>
 
-      {/* Main Chat Area - fixed mobile height issues */}
-      <div className="w-full flex flex-col min-h-screen max-h-screen">
+      {/* Main Chat Area - fixed mobile height and viewport issues */}
+      <main className="w-full flex flex-col h-[100dvh]">
         <div className={`
           flex flex-col h-full w-full transition-all duration-300
           ${isPCSidebarOpen ? 'sm:pl-80' : ''}
         `}>
-          {/* Header - improved mobile design */}
+          {/* Header - fixed height */}
           <header className="flex-none bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50">
             <div className={`
               px-4 py-3 sm:px-6 sm:py-4 
@@ -525,10 +525,10 @@ export default function Chatbot() {
             </div>
           </header>
 
-          {/* Messages container - adjusted for mobile */}
-          <div className="flex-1 overflow-hidden flex flex-col min-h-0">
+          {/* Messages container - improved mobile scrolling */}
+          <div className="flex-1 overflow-hidden">
             <div className={`
-              flex-1 overflow-y-auto py-4 sm:py-6 space-y-4 sm:space-y-6 custom-scrollbar overscroll-contain
+              h-full overflow-y-auto py-4 sm:py-6 space-y-4 sm:space-y-6 custom-scrollbar overscroll-contain
               ${isPCSidebarOpen ? 'px-4 sm:px-6 max-w-[1024px] mx-auto w-full' : 'container mx-auto px-3 sm:px-6'}
             `}>
               {messages.length === 0 && (
@@ -626,11 +626,11 @@ export default function Chatbot() {
                   </div>
                 </div>
               )}
-              <div ref={messagesEndRef} />
+              <div ref={messagesEndRef} className="h-4" />
             </div>
           </div>
 
-          {/* Input form - fixed mobile positioning */}
+          {/* Input form - fixed positioning on mobile */}
           <div className="flex-none bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-t border-gray-200/50 dark:border-gray-700/50 w-full">
             <div className={`p-3 sm:p-4 ${isPCSidebarOpen ? 'max-w-[1024px] mx-auto' : 'container mx-auto px-3 sm:px-6'}`}>
               <form onSubmit={editingMessage ? handleUpdateMessage : handleSubmit} className="flex gap-2 sm:gap-3">
@@ -655,7 +655,7 @@ export default function Chatbot() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
 
       {/* Mobile overlay - improved blur effect */}
       {showSidebar && (
@@ -666,60 +666,42 @@ export default function Chatbot() {
       )}
 
       <style jsx global>{`
-        body {
-          overscroll-behavior: none;
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 4px;
-          @media (min-width: 640px) {
-            width: 6px;
-          }
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: #0d9488;
-          border-radius: 2px;
-        }
-        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: #4f46e5;
-        }
-        @keyframes fade-in {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slide-down {
-          from { opacity: 0; transform: translateY(-10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slide-in {
-          from { opacity: 0; transform: translateX(-20px); }
-          to { opacity: 1; transform: translateX(0); }
-        }
-        .animate-fade-in {
-          animation: fade-in 0.3s ease-out forwards;
-        }
-        .animate-slide-down {
-          animation: slide-down 0.3s ease-out forwards;
-        }
-        .animate-slide-in {
-          animation: slide-in 0.3s ease-out forwards;
-        }
-        @media (max-width: 640px) {
-          .group:active .opacity-0 {
-            opacity: 1;
-          }
+        /* Existing styles */
+        
+        /* Improved mobile viewport handling */
+        :root {
+          height: 100%;
         }
         
-        /* Fix for mobile viewport height */
+        body {
+          height: 100%;
+          overscroll-behavior: none;
+          position: fixed;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+        }
+
+        #__next {
+          height: 100%;
+        }
+
+        /* Prevent content shift when keyboard appears */
         @supports (-webkit-touch-callout: none) {
-          .min-h-screen {
-            min-height: -webkit-fill-available;
+          .h-\\[100dvh\\] {
+            height: -webkit-fill-available;
           }
-          .max-h-screen {
-            max-height: -webkit-fill-available;
-          }
+        }
+
+        /* Improve mobile scrolling */
+        .custom-scrollbar {
+          -webkit-overflow-scrolling: touch;
+        }
+
+        /* Prevent rubber-band effect */
+        .overscroll-contain {
+          overscroll-behavior: contain;
         }
       `}</style>
     </div>
