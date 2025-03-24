@@ -503,11 +503,20 @@ export default function Chatbot() {
                   </svg>
                 </div>
 
-                {/* Title - responsive text sizes */}
+                {/* Title section */}
                 <div>
-                  <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-teal-600 to-indigo-600 bg-clip-text text-transparent">
-                    AI Chatbot
-                  </h1>
+                  <button 
+                    onClick={() => {
+                      setActiveChat(null);
+                      setMessages([]);
+                      setShowSidebar(false);
+                    }}
+                    className="hover:opacity-80 transition-opacity duration-200 text-left"
+                  >
+                    <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-teal-600 to-indigo-600 bg-clip-text text-transparent">
+                      AI Chatbot
+                    </h1>
+                  </button>
                   <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
                     Powered by Gemini • Ask me anything
                   </p>
@@ -561,20 +570,26 @@ export default function Chatbot() {
 
                   {/* Message actions for user messages */}
                   {message.role === 'user' && (
-                    <div className="flex flex-col gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <div className={`
+                      flex flex-col gap-1.5 opacity-0 group-hover:opacity-100 
+                      sm:hover:bg-gray-100 sm:dark:hover:bg-gray-700
+                      active:opacity-100 touch-action-none
+                      bg-gray-50 dark:bg-gray-800 sm:bg-transparent sm:dark:bg-transparent
+                      rounded-lg shadow-sm sm:shadow-none p-1 sm:p-0
+                    `}>
                       <button
                         onClick={() => handleEditMessage(message)}
-                        className="p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                        className="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                       >
-                        <svg className="w-4 h-4 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
                       </button>
                       <button
                         onClick={() => handleDeleteMessage(message.id)}
-                        className="p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                        className="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                       >
-                        <svg className="w-4 h-4 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
                       </button>
@@ -690,6 +705,11 @@ export default function Chatbot() {
         }
         .animate-slide-in {
           animation: slide-in 0.3s ease-out forwards;
+        }
+        @media (max-width: 640px) {
+          .group:active .opacity-0 {
+            opacity: 1;
+          }
         }
       `}</style>
     </div>
