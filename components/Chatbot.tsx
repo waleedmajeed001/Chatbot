@@ -316,12 +316,14 @@ export default function Chatbot() {
   return (
     <div className="fixed inset-0 flex bg-gradient-to-br from-teal-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Sidebar - improved mobile handling */}
-      <div className={`
-        fixed inset-y-0 left-0 w-[85%] sm:w-80 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl border-r border-gray-200/50 
-        dark:border-gray-700/50 transform transition-all duration-300 ease-in-out z-30
-        ${showSidebar ? 'translate-x-0 shadow-lg' : '-translate-x-full'}
-        sm:absolute sm:shadow-none ${isPCSidebarOpen ? 'sm:translate-x-0' : 'sm:-translate-x-full'}
-      `}>
+      <div 
+        className={`
+          fixed inset-y-0 left-0 w-[85%] sm:w-80 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl 
+          border-r border-gray-200/50 dark:border-gray-700/50 transform transition-all duration-300 ease-out z-40
+          ${showSidebar ? 'translate-x-0' : '-translate-x-full'}
+          sm:absolute sm:shadow-none ${isPCSidebarOpen ? 'sm:translate-x-0' : 'sm:-translate-x-full'}
+        `}
+      >
         <div className="h-full flex flex-col">
           {/* Sidebar Header */}
           <div className="p-4 sm:p-6 border-b border-gray-200/50 dark:border-gray-700/50">
@@ -455,13 +457,15 @@ export default function Chatbot() {
       </div>
 
       {/* Main Chat Area - fixed mobile height and viewport issues */}
-      <main className="w-full flex flex-col h-[100dvh]">
-        <div className={`
-          flex flex-col h-full w-full transition-all duration-300
-          ${isPCSidebarOpen ? 'sm:pl-80' : ''}
-        `}>
-          {/* Header - fixed height */}
-          <header className="flex-none bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50">
+      <main className="w-full flex flex-col min-h-[100dvh] max-h-[100dvh] bg-gradient-to-br from-teal-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+        <div 
+          className={`
+            flex flex-col h-full w-full transition-all duration-300
+            ${isPCSidebarOpen ? 'sm:pl-80' : ''}
+          `}
+        >
+          {/* Header - improved mobile and PC layout */}
+          <header className="flex-none bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-20">
             <div className={`
               px-4 py-3 sm:px-6 sm:py-4 
               ${isPCSidebarOpen ? 'max-w-[1024px] mx-auto' : 'container mx-auto'}
@@ -470,7 +474,7 @@ export default function Chatbot() {
                 {/* Mobile menu button - improved touch target */}
                 <button
                   onClick={() => setShowSidebar(!showSidebar)}
-                  className="sm:hidden p-2.5 -ml-1.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 active:bg-gray-200 dark:active:bg-gray-600"
+                  className="sm:hidden p-2.5 -ml-1.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 active:bg-gray-200 dark:active:bg-gray-600 transition-colors"
                 >
                   <svg className="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -480,7 +484,7 @@ export default function Chatbot() {
                 {/* PC sidebar toggle button - improved hover states */}
                 <button
                   onClick={() => setIsPCSidebarOpen(!isPCSidebarOpen)}
-                  className="hidden sm:block p-2.5 -ml-1.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 active:bg-gray-200 dark:active:bg-gray-600"
+                  className="hidden sm:block p-2.5 -ml-1.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 active:bg-gray-200 dark:active:bg-gray-600 transition-colors"
                 >
                   <svg 
                     className="w-6 h-6 text-gray-600 dark:text-gray-300" 
@@ -496,51 +500,54 @@ export default function Chatbot() {
                   </svg>
                 </button>
 
-                {/* Logo - adjusted sizes for mobile */}
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-teal-500 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg">
+                {/* Logo - improved mobile and PC sizes */}
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-teal-500 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg transition-transform hover:scale-105">
                   <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                   </svg>
                 </div>
 
-                {/* Title section */}
-                <div>
+                {/* Title section - improved typography */}
+                <div className="flex-1 min-w-0">
                   <button 
                     onClick={() => {
                       setActiveChat(null);
                       setMessages([]);
                       setShowSidebar(false);
                     }}
-                    className="hover:opacity-80 transition-opacity duration-200 text-left"
+                    className="hover:opacity-80 transition-opacity duration-200 text-left w-full"
                   >
-                    <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-teal-600 to-indigo-600 bg-clip-text text-transparent">
-                      AI Chatbot
+                    <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-teal-600 to-indigo-600 bg-clip-text text-transparent truncate">
+                      {activeChat ? chatHistories.find(chat => chat.id === activeChat)?.name : 'AI Chatbot'}
                     </h1>
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 truncate">
+                      Powered by Gemini • Ask me anything
+                    </p>
                   </button>
-                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
-                    Powered by Gemini • Ask me anything
-                  </p>
                 </div>
               </div>
             </div>
           </header>
 
-          {/* Messages container - improved mobile scrolling */}
-          <div className="flex-1 overflow-hidden">
-            <div className={`
-              h-full overflow-y-auto py-4 sm:py-6 space-y-4 sm:space-y-6 custom-scrollbar overscroll-contain
-              ${isPCSidebarOpen ? 'px-4 sm:px-6 max-w-[1024px] mx-auto w-full' : 'container mx-auto px-3 sm:px-6'}
-            `}>
+          {/* Messages container - improved mobile scrolling and spacing */}
+          <div className="flex-1 overflow-hidden relative">
+            <div 
+              className={`
+                absolute inset-0 overflow-y-auto py-4 sm:py-6 
+                space-y-4 sm:space-y-6 custom-scrollbar overscroll-contain
+                ${isPCSidebarOpen ? 'px-4 sm:px-6 max-w-[1024px] mx-auto w-full' : 'container mx-auto px-3 sm:px-6'}
+              `}
+            >
               {messages.length === 0 && (
                 <div className="flex flex-col items-center justify-center h-full text-gray-500 dark:text-gray-400 space-y-6">
-                  <div className="w-24 h-24 bg-gradient-to-br from-teal-100 to-indigo-100 dark:from-teal-900 dark:to-indigo-900 rounded-2xl flex items-center justify-center shadow-lg">
-                    <svg className="w-12 h-12 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-teal-100 to-indigo-100 dark:from-teal-900 dark:to-indigo-900 rounded-2xl flex items-center justify-center shadow-lg">
+                    <svg className="w-10 h-10 sm:w-12 sm:h-12 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                     </svg>
                   </div>
-                  <div className="text-center">
-                    <p className="text-2xl font-semibold text-gray-700 dark:text-gray-300">Start a conversation!</p>
-                    <p className="text-base text-gray-500 dark:text-gray-400 mt-2">Ask me anything and I&apos;ll help you out.</p>
+                  <div className="text-center px-4">
+                    <p className="text-xl sm:text-2xl font-semibold text-gray-700 dark:text-gray-300">Start a conversation!</p>
+                    <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mt-2">Ask me anything and I&apos;ll help you out.</p>
                   </div>
                 </div>
               )}
@@ -551,58 +558,58 @@ export default function Chatbot() {
                     message.role === 'user' ? 'flex-row-reverse' : 'flex-row'
                   }`}
                 >
-                  {/* Avatar - adjusted size for mobile */}
-                  <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex-shrink-0 flex items-center justify-center ${
+                  {/* Avatar - improved mobile and PC sizes */}
+                  <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex-shrink-0 flex items-center justify-center shadow-sm transition-transform hover:scale-105 ${
                     message.role === 'user' 
                       ? 'bg-gradient-to-br from-teal-500 to-teal-600' 
                       : 'bg-gradient-to-br from-indigo-500 to-indigo-600'
                   }`}>
                     {message.role === 'user' ? (
-                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                     ) : (
-                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                       </svg>
                     )}
                   </div>
 
-                  {/* Message actions for user messages */}
-                    {message.role === 'user' && (
+                  {/* Message actions - improved mobile touch targets */}
+                  {message.role === 'user' && (
                     <div className={`
                       flex flex-col gap-1.5 opacity-0 group-hover:opacity-100 
                       sm:hover:bg-gray-100 sm:dark:hover:bg-gray-700
                       active:opacity-100 touch-action-none
                       bg-gray-50 dark:bg-gray-800 sm:bg-transparent sm:dark:bg-transparent
-                      rounded-lg shadow-sm sm:shadow-none p-1 sm:p-0
+                      rounded-lg shadow-sm sm:shadow-none p-1.5 sm:p-0
                     `}>
-                        <button
+                      <button
                         onClick={() => handleEditMessage(message)}
-                        className="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                        className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                       >
                         <svg className="w-4 h-4 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                          </svg>
-                        </button>
-                        <button
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                      </button>
+                      <button
                         onClick={() => handleDeleteMessage(message.id)}
-                        className="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                        className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                       >
                         <svg className="w-4 h-4 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                        </button>
-                      </div>
-                    )}
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      </button>
+                    </div>
+                  )}
 
-                  {/* Message bubble - improved padding */}
+                  {/* Message bubble - improved mobile and PC padding */}
                   <div className={`
                     inline-block rounded-2xl px-3 py-2 sm:px-4 sm:py-3
                     ${message.role === 'user'
-                          ? 'bg-gradient-to-br from-teal-500 to-teal-600 text-white rounded-br-none'
+                      ? 'bg-gradient-to-br from-teal-500 to-teal-600 text-white rounded-br-none'
                       : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white rounded-bl-none'}
-                    shadow-sm animate-fade-in
+                    shadow-sm animate-fade-in max-w-[85%] sm:max-w-[75%]
                   `}>
                     <div className="text-sm sm:text-base whitespace-pre-wrap break-words">
                       {message.content}
@@ -612,8 +619,8 @@ export default function Chatbot() {
               ))}
               {isLoading && (
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center bg-gradient-to-br from-indigo-500 to-indigo-600">
-                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex-shrink-0 flex items-center justify-center bg-gradient-to-br from-indigo-500 to-indigo-600 shadow-sm">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                     </svg>
                   </div>
@@ -630,8 +637,8 @@ export default function Chatbot() {
             </div>
           </div>
 
-          {/* Input form - fixed positioning on mobile */}
-          <div className="flex-none bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-t border-gray-200/50 dark:border-gray-700/50 w-full">
+          {/* Input form - improved mobile and PC layout */}
+          <div className="flex-none w-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-t border-gray-200/50 dark:border-gray-700/50 sticky bottom-0 z-20">
             <div className={`p-3 sm:p-4 ${isPCSidebarOpen ? 'max-w-[1024px] mx-auto' : 'container mx-auto px-3 sm:px-6'}`}>
               <form onSubmit={editingMessage ? handleUpdateMessage : handleSubmit} className="flex gap-2 sm:gap-3">
                 <input
@@ -639,15 +646,15 @@ export default function Chatbot() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder={editingMessage ? "Edit your message..." : "Type your message..."}
-                  className="flex-1 p-3 sm:p-4 text-sm sm:text-base bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 dark:text-white shadow-sm"
+                  className="flex-1 p-3 text-sm bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 dark:text-white shadow-sm"
                 />
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="px-4 sm:px-6 py-3 sm:py-4 bg-gradient-to-r from-teal-500 to-indigo-500 text-white rounded-xl hover:from-teal-600 hover:to-indigo-600 disabled:opacity-50 transition-all duration-200 shadow-sm hover:shadow-md flex items-center gap-2"
+                  className="px-4 py-3 bg-gradient-to-r from-teal-500 to-indigo-500 text-white rounded-xl hover:from-teal-600 hover:to-indigo-600 disabled:opacity-50 transition-all duration-200 shadow-sm hover:shadow-md flex items-center gap-2"
                 >
-                  <span className="text-sm sm:text-base">{editingMessage ? 'Update' : 'Send'}</span>
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <span className="text-sm">{editingMessage ? 'Update' : 'Send'}</span>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                   </svg>
                 </button>
@@ -660,48 +667,95 @@ export default function Chatbot() {
       {/* Mobile overlay - improved blur effect */}
       {showSidebar && (
         <div 
-          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-20 sm:hidden"
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-30 sm:hidden animate-fade-in"
           onClick={() => setShowSidebar(false)}
         />
       )}
 
       <style jsx global>{`
-        /* Existing styles */
-        
+        /* Reset base styles */
+        * {
+          -webkit-tap-highlight-color: transparent;
+        }
+
         /* Improved mobile viewport handling */
         :root {
-          height: 100%;
+          height: -webkit-fill-available;
+        }
+        
+        html {
+          height: -webkit-fill-available;
         }
         
         body {
-          height: 100%;
-          overscroll-behavior: none;
+          height: 100vh;
+          height: -webkit-fill-available;
+          overscroll-behavior-y: none;
           position: fixed;
           left: 0;
           right: 0;
           top: 0;
           bottom: 0;
+          overflow: hidden;
         }
 
         #__next {
           height: 100%;
         }
 
-        /* Prevent content shift when keyboard appears */
-        @supports (-webkit-touch-callout: none) {
-          .h-\\[100dvh\\] {
-            height: -webkit-fill-available;
-          }
-        }
-
-        /* Improve mobile scrolling */
+        /* Smooth scrolling */
         .custom-scrollbar {
           -webkit-overflow-scrolling: touch;
+          scrollbar-width: thin;
+          scrollbar-color: rgba(0,0,0,0.2) transparent;
         }
 
-        /* Prevent rubber-band effect */
-        .overscroll-contain {
-          overscroll-behavior: contain;
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background-color: rgba(0,0,0,0.2);
+          border-radius: 2px;
+        }
+
+        /* Improved animations */
+        @keyframes fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        @keyframes slide-in {
+          from { transform: translateX(-100%); }
+          to { transform: translateX(0); }
+        }
+
+        @keyframes slide-up {
+          from { transform: translateY(100%); }
+          to { transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+          animation: fade-in 0.2s ease-out;
+        }
+
+        .animate-slide-in {
+          animation: slide-in 0.3s ease-out;
+        }
+
+        .animate-slide-up {
+          animation: slide-up 0.3s ease-out;
+        }
+
+        /* Touch handling */
+        @media (hover: none) {
+          .group:active .opacity-0 {
+            opacity: 1;
+          }
         }
       `}</style>
     </div>
